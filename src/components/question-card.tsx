@@ -31,45 +31,11 @@ function QuestionCardImpl({ question }: Props) {
   const [expanded, setExpanded] = useState(false);
   const isHot = question.likes >= 5;
 
-  // 3D tilt：用 ref 直接寫 DOM，完全不經過 React render
-  // 內層 wrapper 專門承載 tilt transform；外層 motion.article 負責 layout 動畫
-  const tiltRef = useRef<HTMLDivElement>(null);
-  const rafIdRef = useRef<number | undefined>(undefined);
-
   // hydration 後才讀 sessionStorage，避免 SSR mismatch
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setAlreadyLiked(hasLiked(question.id));
   }, [question.id]);
-
-  useEffect(() => {
-    return () => {
-      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
-    };
-  }, []);
-
-  function handleMouseMove(event: React.MouseEvent<HTMLElement>) {
-    const el = tiltRef.current;
-    if (!el) return;
-
-    const rect = el.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-    if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
-    rafIdRef.current = requestAnimationFrame(() => {
-      const rotateX = (-y * 6).toFixed(2);
-      const rotateY = (x * 6).toFixed(2);
-      el.style.transform = `perspective(1000px) translateY(-3px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    });
-  }
-
-  function handleMouseLeave() {
-    const el = tiltRef.current;
-    if (!el) return;
-    if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
-    el.style.transform = "";
-  }
 
   async function handleLike() {
     if (pending || alreadyLiked) return;
@@ -96,50 +62,27 @@ function QuestionCardImpl({ question }: Props) {
       exit={{ opacity: 0, y: -8, scale: 0.96 }}
       transition={{ type: "spring", stiffness: 280, damping: 26 }}
     >
-      {/* 內層 wrapper 承載 ref-based 3D tilt
-          外層 motion.article 不放 mouse 監聽，避免 layout 動畫被 transform 覆寫 */}
+      {/* 簡潔卡片 - 移除 3D tilt */}
       <div
-        ref={tiltRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         className={cn(
           "group relative overflow-hidden rounded-2xl bg-card text-card-foreground",
-          "border border-border/70 p-5 sm:p-6",
-          "shadow-[0_1px_0_oklch(0.92_0.02_70_/_0.4),0_8px_24px_-12px_oklch(0.5_0.05_45_/_0.18)]",
-          "transition-[transform,border-color,box-shadow] duration-300 ease-out",
-          "hover:border-primary/40 hover:shadow-[0_4px_0_oklch(0.92_0.02_70_/_0.3),0_18px_40px_-16px_oklch(0.62_0.18_38_/_0.35)]",
-          "will-change-transform",
-          isHot && "border-primary/30"
+          "border border-border p-5 sm:p-6",
+          "shadow-sm hover:shadow-md",
+          "transition-[border-color,box-shadow,background-color] duration-200",
+          "hover:border-primary/50 hover:bg-card/80",
+          isHot && "border-primary/40 bg-linear-to-br from-card to-primary/5"
         )}
-        style={{ transformStyle: "preserve-3d" }}
       >
         {isHot ? (
-          <span
-            aria-hidden
-            className="absolute left-0 top-5 bottom-5 w-[3px] rounded-full bg-linear-to-b from-orange-400 via-rose-400 to-amber-300"
-          />
+          <span className="inline-block text-xl mr-2">🔥</span>
         ) : null}
 
         <p
           className={cn(
             "whitespace-pre-wrap text-[15px] leading-[1.75] sm:text-base",
-            isHot && "hot-shimmer font-medium"
+            isHot && "font-medium"
           )}
         >
-          {isHot ? (
-            <motion.span
-              aria-hidden
-              className="mr-1.5 inline-block origin-center"
-              animate={{ rotate: [-6, 8, -6] }}
-              transition={{
-                duration: 3.8,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              🔥
-            </motion.span>
-          ) : null}
           {question.content}
         </p>
 

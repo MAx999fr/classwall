@@ -48,7 +48,7 @@ function useCountUp(target: number, duration = 700) {
 export function StatsPill({ label, value, accent = false }: Props) {
   const display = useCountUp(value);
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 backdrop-blur-md px-3 py-1.5 text-[12px]">
+    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[12px]">
       <span className="text-muted-foreground">{label}</span>
       <span
         className={cn(

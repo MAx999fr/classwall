@@ -236,21 +236,17 @@
       "cv11" on;
   }
 
-  /* 背景 aurora 暖光層 */
+  /* 背景簡化：單一微妙漸層 */
   body::before {
     content: "";
     position: fixed;
-    inset: -25%;
+    inset: 0;
     z-index: -2;
     pointer-events: none;
     background:
-      radial-gradient(45% 35% at 18% 22%, var(--aurora-1) 0%, transparent 60%),
-      radial-gradient(38% 32% at 82% 18%, var(--aurora-2) 0%, transparent 65%),
-      radial-gradient(50% 40% at 58% 92%, var(--aurora-3) 0%, transparent 70%);
-    filter: blur(40px);
-    opacity: 0.85;
-    animation: aurora-drift 28s ease-in-out infinite;
-    will-change: transform;
+      radial-gradient(ellipse 100% 80% at 50% 0%, var(--aurora-1) 0%, transparent 85%);
+    filter: blur(60px);
+    opacity: 0.5;
   }
 
   /* 紙質感 SVG noise 噪點層 */
@@ -307,19 +303,20 @@
     0 0 8px color-mix(in oklch, var(--primary) 22%, transparent);
 }
 
-/* 滑鼠跟隨光暈（page 用，依 mouse-x / mouse-y CSS var 變動） */
+/* 滑鼠跟隨光暈 - 更微妙 */
 .mouse-spotlight {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(
-    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    color-mix(in oklch, var(--primary) 22%, transparent),
-    transparent 60%
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    color-mix(in oklch, var(--primary) 12%, transparent),
+    transparent 65%
   );
   transition: opacity 200ms ease;
-  mix-blend-mode: plus-lighter;
+  mix-blend-mode: normal;
+  opacity: 0.6;
 }
 .dark .mouse-spotlight {
   mix-blend-mode: screen;

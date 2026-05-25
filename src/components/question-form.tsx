@@ -48,9 +48,9 @@ export function QuestionForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
       className={cn(
-        "relative rounded-3xl border border-border/70 bg-card/70 backdrop-blur-md",
-        "p-5 sm:p-7",
-        "shadow-[0_1px_0_oklch(0.92_0.02_70_/_0.5),0_24px_48px_-20px_oklch(0.5_0.05_45_/_0.18)]"
+        "relative rounded-2xl border border-border bg-card p-5 sm:p-7",
+        "shadow-sm hover:shadow-md",
+        "transition-[shadow,border-color] duration-200"
       )}
     >
       {/* 三個提示 chips */}
@@ -62,8 +62,8 @@ export function QuestionForm() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.06 }}
             className={cn(
-              "inline-flex items-center rounded-full border border-border/60",
-              "bg-muted/40 px-2.5 py-1 text-[11px] tracking-wider text-muted-foreground"
+              "inline-flex items-center rounded-full border border-border",
+              "bg-muted px-2.5 py-1 text-[11px] tracking-wider text-muted-foreground"
             )}
           >
             {c}
@@ -133,13 +133,13 @@ export function QuestionForm() {
               submitting || content.trim().length === 0 ? undefined : { y: -1 }
             }
             className={cn(
-              "group inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-full",
-              "bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground",
-              "shadow-[0_8px_24px_-8px_oklch(0.62_0.18_38_/_0.5)]",
-              "transition-[transform,box-shadow,opacity] duration-200",
-              "hover:shadow-[0_12px_32px_-8px_oklch(0.62_0.18_38_/_0.7)]",
+              "group inline-flex w-full min-h-10 items-center justify-center gap-2 rounded-full",
+              "bg-primary px-6 py-2 text-sm font-medium text-primary-foreground",
+              "shadow-sm hover:shadow-md",
+              "transition-[box-shadow,opacity] duration-200",
+              "hover:opacity-90",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              "disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none",
+              "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none",
               "sm:w-auto"
             )}
           >

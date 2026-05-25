@@ -42,22 +42,15 @@ export default function Home() {
       <main className="relative mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
         {/* ============ Header ============ */}
         <motion.header
-          initial="hidden"
-          animate="show"
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: { staggerChildren: 0.09, delayChildren: 0.05 },
-            },
-          }}
-          className="flex flex-col gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+          className="flex flex-col gap-6"
         >
           <motion.div
-            variants={{
-              hidden: { opacity: 0, y: -6 },
-              show: { opacity: 1, y: 0 },
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
             className="flex items-center justify-between"
           >
             <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -68,10 +61,9 @@ export default function Home() {
           </motion.div>
 
           <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 14 },
-              show: { opacity: 1, y: 0 },
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15, duration: 0.5 }}
             className="font-display text-5xl leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl"
           >
             <span className="italic">Class</span>
@@ -80,11 +72,10 @@ export default function Home() {
           </motion.h1>
 
           <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 10 },
-              show: { opacity: 1, y: 0 },
-            }}
-            className="max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base"
           >
             一道屬於這間教室的匿名問答牆——
             <span className="font-display italic text-foreground">
@@ -94,15 +85,14 @@ export default function Home() {
           </motion.p>
 
           <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 8 },
-              show: { opacity: 1, y: 0 },
-            }}
-            className="flex flex-wrap items-center gap-2 pt-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.25, duration: 0.4 }}
+            className="flex flex-wrap items-center gap-3 pt-2"
           >
             <StatsPill label="問題" value={questions.length} />
             <StatsPill label="總 +1" value={totalLikes} accent />
-            <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 backdrop-blur-md px-3 py-1.5 text-[12px]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[12px]">
               <span className="live-dot" aria-hidden />
               <span className="text-muted-foreground">即時連線中</span>
             </span>
@@ -138,9 +128,10 @@ export default function Home() {
             </div>
           ) : questions.length === 0 ? (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border border-dashed border-border/70 bg-card/40 py-16 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="rounded-2xl border border-dashed border-border bg-card py-12 text-center"
             >
               <p className="font-display text-2xl italic text-muted-foreground">
                 還沒有人發問
@@ -167,8 +158,8 @@ export default function Home() {
                     whileTap={{ scale: 0.96 }}
                     whileHover={loadingMore ? undefined : { y: -1 }}
                     className={cn(
-                      "inline-flex min-h-11 items-center gap-2 rounded-full px-6 py-2.5",
-                      "border border-border bg-card/70 backdrop-blur-md",
+                      "inline-flex min-h-10 items-center gap-2 rounded-full px-5 py-2",
+                      "border border-border bg-card",
                       "text-sm font-medium transition-colors duration-200",
                       "hover:border-primary/60 hover:bg-primary/10 hover:text-primary",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70",
